@@ -22,6 +22,14 @@ public class TransferProcessor extends DomainEntity {
     }
 
 
+    public void processTransferOutCompleted(UUID processorId, TransferInfo transferInfo) {
+        this.transferStatus = TransferStatusEnum.TransferOutCompleted;
+
+        ProcessTransferOutCompletedEvent processTransferOutCompletedEvent = new ProcessTransferOutCompletedEvent(processorId, transferInfo);
+
+        EventPublisher.publish(processTransferOutCompletedEvent);
+    }
+
     public void processSourceAccountInsufficientMoney(TransferInfo transferInfo, UUID processorId) {
         this.transferStatus = TransferStatusEnum.TransferAborted;
 
@@ -50,4 +58,5 @@ public class TransferProcessor extends DomainEntity {
         return TransferStatusEnum.TransferInCompleted.equals(transferStatus)
                 || TransferStatusEnum.TransferAborted.equals(transferStatus);
     }
+
 }

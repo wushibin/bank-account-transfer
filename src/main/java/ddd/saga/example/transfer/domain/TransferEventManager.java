@@ -4,6 +4,7 @@ import ddd.saga.example.transfer.command.*;
 import ddd.saga.example.transfer.domain.event.*;
 
 public class TransferEventManager {
+    // observe the 'transfer' event and send the 'bank account' command
     public void handleTransferStartedEvent(ProcessorTransferStartedEvent processorTransferStartedEvent) {
         BankAccountTransferOutCommand bankAccountTransferOutCommand =
                 new BankAccountTransferOutCommand(processorTransferStartedEvent.getProcessId(),
@@ -11,22 +12,34 @@ public class TransferEventManager {
         CommandContext.sendCommand(bankAccountTransferOutCommand);
     }
 
-    public void handleBankAccountTransferOutCompleteEvent(BankAccountTransferOutCompleteEvent bankAccountTransferOutCompleteEvent) {
-        BankAccountTransferInCommand bankAccountTransferInCommand = new BankAccountTransferInCommand(bankAccountTransferOutCompleteEvent.getProcessorId(),
-                bankAccountTransferOutCompleteEvent.getTransferInfo());
+    // observe the 'bank account' event and send the 'transfer' command
+    public void handleBankAccountTransferOutCompleteEvent(BankAccountTransferOutCompleteEvent bankAccountTransferOutCompleteEvent){
+
+        TransferOutCompletedCommand transferOutCompletedCommand = new TransferOutCompletedCommand(bankAccountTransferOutCompleteEvent.getProcessorId(), bankAccountTransferOutCompleteEvent.getTransferInfo());
+
+        CommandContext.sendCommand(transferOutCompletedCommand);
+    }
+
+    // observe the 'transfer' event and send the 'bank account' command
+    public void handleProcessTransferOutCompleteEvent(ProcessTransferOutCompletedEvent transferOutCompletedEvent) {
+        BankAccountTransferInCommand bankAccountTransferInCommand = new BankAccountTransferInCommand(transferOutCompletedEvent.getProcessorId(),
+                transferOutCompletedEvent.getTransferInfo());
 
         CommandContext.sendCommand(bankAccountTransferInCommand);
     }
 
+    // observe the 'bank account' event and send the 'transfer' command
     public void handleBankAccountInsufficientMoneyEvent(BankAccountInsufficientMoneyEvent bankAccountInsufficientMoneyEvent) {
         TransferInsufficientMoneyCommand transferInsufficientMoneyCommand = new TransferInsufficientMoneyCommand();
         CommandContext.sendCommand(transferInsufficientMoneyCommand);
     }
 
+    // observe the 'transfer' event
     public void handleTransferAbortEvent(ProcessTransferAbortEvent transferAbortEvent){
         // log that the transfer has aborted
     }
 
+    // observe the 'bank account' event and send the 'transfer' command
     public void handleBankAccountTransferInCompletedEvent(BankAccountTransferInCompleteEvent bankAccountTransferInCompleteEvent){
 
         TransferInCompletedCommand transferInCompletedCommand = new TransferInCompletedCommand(bankAccountTransferInCompleteEvent.getProcessorId(),
@@ -35,6 +48,7 @@ public class TransferEventManager {
         CommandContext.sendCommand(transferInCompletedCommand);
     }
 
+    // observe the 'transfer' event
     public void handleTransferCompletedEvent(ProcessCompletedEvent processCompletedEvent){
         // log the transfer has completed
     }
@@ -47,12 +61,14 @@ public class TransferEventManager {
         CommandContext.sendCommand(bankAccountTransferOutRollBackCommand);
     }
 
+    // observe the 'bank account' event and send the 'transfer' command
     public void handBankAccountTransferOutRollbackEvent(BankAccountRollbackTransferOutEvent rollbackTransferOutEvent){
         TransferOutRollbackCommand transferOutRollbackCommand = new TransferOutRollbackCommand(rollbackTransferOutEvent.getProcessorId(), rollbackTransferOutEvent.getTransferInfo());
 
         CommandContext.sendCommand(transferOutRollbackCommand);
     }
 
+    // observe the 'transfer' event
     public void handleTransferRollbackEvent(ProcessTransferOutRollbackEvent processTransferOutRollbackEvent){
         // log the message the the transfer out has been roll backed
     }

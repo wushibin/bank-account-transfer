@@ -1,21 +1,19 @@
 package ddd.saga.example.transfer.handle;
 
-import ddd.saga.example.transfer.command.TransferInsufficientMoneyCommand;
+import ddd.saga.example.transfer.command.TransferOutCompletedCommand;
 import ddd.saga.example.transfer.domain.TransferInfo;
 import ddd.saga.example.transfer.domain.TransferProcessor;
 import ddd.saga.example.transfer.domain.TransferProcessorRepository;
 
-public class TransferInsufficientMoneyCommandHandler implements CommandHandle<TransferInsufficientMoneyCommand>{
-
+public class TransferOutCompletedCommandHandler implements CommandHandle<TransferOutCompletedCommand>{
     //@Autowired
     private TransferProcessorRepository transferProcessorRepository;
 
-    //@Transaction
-    public void execute(TransferInsufficientMoneyCommand command) {
+    public void execute(TransferOutCompletedCommand command) {
         TransferProcessor transferProcessor = transferProcessorRepository.find(command.getProcessorId());
 
         TransferInfo transferInfo = command.getTransferInfo();
-        transferProcessor.processSourceAccountInsufficientMoney(transferInfo, command.getProcessorId());
+        transferProcessor.processTransferOutCompleted(command.getProcessorId(), transferInfo);
 
         transferProcessorRepository.saveOrUpdate(transferProcessor);
     }
