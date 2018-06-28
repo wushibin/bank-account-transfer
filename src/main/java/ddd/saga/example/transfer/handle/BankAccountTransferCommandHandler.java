@@ -14,7 +14,7 @@ public class BankAccountTransferCommandHandler implements CommandHandle<BankAcco
 
     //@Transaction
     public void execute(BankAccountTransferCommand command) {
-        UUID processId = UUID.fromString(command.getHash());
+        UUID processId = UUID.nameUUIDFromBytes(command.getHash().getBytes());
         TransferProcessor existedProcessor = transferProcessorRepository.find(processId);
 
         if (Objects.nonNull(existedProcessor)){

@@ -1,10 +1,11 @@
 package ddd.saga.example.transfer.command;
 
+import ddd.saga.example.common.domain.DomainCommand;
 import ddd.saga.example.transfer.domain.AccountMoney;
 
 import java.util.UUID;
 
-public class BankAccountTransferCommand {
+public class BankAccountTransferCommand extends DomainCommand{
     private UUID sourceAccountId;
     private Integer sourceAccountLocation;
 
@@ -14,6 +15,10 @@ public class BankAccountTransferCommand {
     private AccountMoney accountMoney;
 
     private String hash;
+
+    public BankAccountTransferCommand(String hash, UUID sourceAccountId, Integer sourceAccountLocation, UUID targetAccountId, Integer targetAccountLocation, AccountMoney accountMoney) {
+
+    }
 
     public UUID getSourceAccountId() {
         return sourceAccountId;
