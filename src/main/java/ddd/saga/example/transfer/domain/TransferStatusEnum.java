@@ -2,9 +2,8 @@ package ddd.saga.example.transfer.domain;
 
 public enum TransferStatusEnum {
     TransferStarted,
-    TransferOutCompleted,
+//    TransferOutCompleted,
     TransferInCompleted,
     RollbackTransferOut,
-    TransferCompleted,
     TransferAborted
 }

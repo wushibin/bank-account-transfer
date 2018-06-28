@@ -9,31 +9,29 @@ import java.util.UUID;
 @AggregateRoot
 public class TransferProcessor extends DomainEntity {
     private UUID processorId;
-    private TransferInfo transferInfo;
     private TransferStatusEnum transferStatus;
 
     public TransferProcessor(){
 
     }
 
-    public TransferProcessor(TransferInfo transferInfo){
+    public TransferProcessor(UUID id, TransferInfo transferInfo){
         this.transferStatus = TransferStatusEnum.TransferStarted;
-        this.processorId = UUID.randomUUID();
+        this.processorId = id;
         EventPublisher.publish(new ProcessorTransferStartedEvent(this.processorId, transferInfo));
     }
 
 
-    public void processSourceAccountInsufficientMoney(UUID sourceAccountId, UUID targetAccountId, AccountMoney transferMoney, UUID processorId) {
+    public void processSourceAccountInsufficientMoney(TransferInfo transferInfo, UUID processorId) {
         this.transferStatus = TransferStatusEnum.TransferAborted;
 
-        TransferInfo transferInfo = new TransferInfo(sourceAccountId, targetAccountId, transferMoney);
         ProcessTransferAbortEvent processTransferAbortEvent = new ProcessTransferAbortEvent(this.processorId, transferInfo);
 
         EventPublisher.publish(processTransferAbortEvent);
     }
 
     public void processCompleted(TransferInfo transferInfo) {
-        this.transferStatus = TransferStatusEnum.TransferCompleted;
+        this.transferStatus = TransferStatusEnum.TransferInCompleted;
 
         // The TransferEventHandler
         ProcessCompletedEvent processCompletedEvent = new ProcessCompletedEvent(processorId, transferInfo);
@@ -46,5 +44,10 @@ public class TransferProcessor extends DomainEntity {
         // The TransferEventHandler
         ProcessTransferOutRollbackEvent processTransferOutRollbackEvent = new ProcessTransferOutRollbackEvent(processorId, transferInfo);
         EventPublisher.publish(processTransferOutRollbackEvent);
+    }
+
+    public boolean inFinished(){
+        return TransferStatusEnum.TransferInCompleted.equals(transferStatus)
+                || TransferStatusEnum.TransferAborted.equals(transferStatus);
     }
 }

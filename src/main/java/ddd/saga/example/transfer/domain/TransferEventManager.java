@@ -3,7 +3,7 @@ package ddd.saga.example.transfer.domain;
 import ddd.saga.example.transfer.command.*;
 import ddd.saga.example.transfer.domain.event.*;
 
-public class TransferEventHandle {
+public class TransferEventManager {
     public void handleTransferStartedEvent(ProcessorTransferStartedEvent processorTransferStartedEvent) {
         BankAccountTransferOutCommand bankAccountTransferOutCommand =
                 new BankAccountTransferOutCommand(processorTransferStartedEvent.getProcessId(),
@@ -11,7 +11,7 @@ public class TransferEventHandle {
         CommandContext.sendCommand(bankAccountTransferOutCommand);
     }
 
-    public void handleTransferOutCompleteEvent(BankAccountTransferOutCompleteEvent bankAccountTransferOutCompleteEvent) {
+    public void handleBankAccountTransferOutCompleteEvent(BankAccountTransferOutCompleteEvent bankAccountTransferOutCompleteEvent) {
         BankAccountTransferInCommand bankAccountTransferInCommand = new BankAccountTransferInCommand(bankAccountTransferOutCompleteEvent.getProcessorId(),
                 bankAccountTransferOutCompleteEvent.getTransferInfo());
 
@@ -21,7 +21,6 @@ public class TransferEventHandle {
     public void handleBankAccountInsufficientMoneyEvent(BankAccountInsufficientMoneyEvent bankAccountInsufficientMoneyEvent) {
         TransferInsufficientMoneyCommand transferInsufficientMoneyCommand = new TransferInsufficientMoneyCommand();
         CommandContext.sendCommand(transferInsufficientMoneyCommand);
-
     }
 
     public void handleTransferAbortEvent(ProcessTransferAbortEvent transferAbortEvent){
@@ -54,7 +53,7 @@ public class TransferEventHandle {
         CommandContext.sendCommand(transferOutRollbackCommand);
     }
 
-    public void handleTranserRollbackEvent(ProcessTransferOutRollbackEvent processTransferOutRollbackEvent){
+    public void handleTransferRollbackEvent(ProcessTransferOutRollbackEvent processTransferOutRollbackEvent){
         // log the message the the transfer out has been roll backed
     }
 }

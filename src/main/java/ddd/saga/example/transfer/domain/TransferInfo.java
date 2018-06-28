@@ -9,7 +9,9 @@ public class TransferInfo {
     private Integer targetAccountLocation;
     private AccountMoney transferMoney;
 
-    public TransferInfo(UUID accountId, UUID targetAccountId, AccountMoney transferMoney) {
+    public TransferInfo(UUID sourceAccountId, Integer sourceAccountLocation,
+                        UUID targetAccountId, Integer targetAccountLocation,
+                        AccountMoney transferMoney) {
 
     }
 
