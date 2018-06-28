@@ -9,6 +9,7 @@ public class TransferInCompletedCommandHandler implements CommandHandle<Transfer
     //@Autowired
     private TransferProcessorRepository transferProcessorRepository;
 
+    //@Transaction
     public void execute(TransferInCompletedCommand command) {
         TransferProcessor transferProcessor = transferProcessorRepository.find(command.getProcessorId());
 

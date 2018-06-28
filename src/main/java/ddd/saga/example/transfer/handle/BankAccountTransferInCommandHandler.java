@@ -1,22 +1,22 @@
 package ddd.saga.example.transfer.handle;
 
 import ddd.saga.example.transfer.domain.BankAccount;
-import ddd.saga.example.transfer.domain.BankAccountRepository;
+import ddd.saga.example.transfer.domain.BankAccountRepoService;
 import ddd.saga.example.transfer.command.BankAccountTransferInCommand;
+import ddd.saga.example.transfer.domain.TransferInfo;
 
 public class BankAccountTransferInCommandHandler implements CommandHandle<BankAccountTransferInCommand> {
-
-
-    // @Autowired
-    private BankAccountRepository bankAccountRepository;
+    // Autowired
+    private BankAccountRepoService bankAccountRepoService;
 
     //@Transaction
     public void execute(BankAccountTransferInCommand command) {
 
-        BankAccount target = bankAccountRepository.find(command.getTransferInfo().getTargetAccountId());
+        TransferInfo transferInfo = command.getTransferInfo();
+        BankAccount target = bankAccountRepoService.find(transferInfo.getTargetAccountId(), transferInfo.getTargetAccountLocation());
 
-        target.transferIn(command.getTransferInfo(), command.getProcessId());
+        target.transferIn(transferInfo, command.getProcessId());
 
-        bankAccountRepository.saveOrUpdate(target);
+        bankAccountRepoService.saveOrUpdate(target, transferInfo.getTargetAccountLocation());
     }
 }

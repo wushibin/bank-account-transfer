@@ -4,7 +4,9 @@ import java.util.UUID;
 
 public class TransferInfo {
     private UUID sourceAccountId;
+    private Integer sourceAccountLocation;
     private UUID targetAccountId;
+    private Integer targetAccountLocation;
     private AccountMoney transferMoney;
 
     public TransferInfo(UUID accountId, UUID targetAccountId, AccountMoney transferMoney) {
@@ -15,8 +17,16 @@ public class TransferInfo {
         return sourceAccountId;
     }
 
+    public Integer getSourceAccountLocation() {
+        return sourceAccountLocation;
+    }
+
     public UUID getTargetAccountId() {
         return targetAccountId;
+    }
+
+    public Integer getTargetAccountLocation() {
+        return targetAccountLocation;
     }
 
     public AccountMoney getTransferMoney() {

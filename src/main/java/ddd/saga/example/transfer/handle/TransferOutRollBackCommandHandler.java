@@ -9,6 +9,7 @@ public class TransferOutRollBackCommandHandler implements CommandHandle<BankAcco
     //@Autowired
     private TransferProcessorRepository transferProcessorRepository;
 
+    //@Transaction
     public void execute(BankAccountTransferOutRollBackCommand command) {
         TransferProcessor transferProcessor = transferProcessorRepository.find(command.getProcessorId());
 

@@ -10,6 +10,7 @@ public class TransferInsufficientMoneyCommandHandler implements CommandHandle<Tr
     //@Autowired
     private TransferProcessorRepository transferProcessorRepository;
 
+    //@Transaction
     public void execute(TransferInsufficientMoneyCommand command) {
         TransferProcessor transferProcessor = transferProcessorRepository.find(command.getProcessorId());
 
