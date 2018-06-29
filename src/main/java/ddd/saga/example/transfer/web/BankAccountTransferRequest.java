@@ -7,6 +7,7 @@ import java.util.UUID;
 public class BankAccountTransferRequest {
     /**
      * hash(enc(sourceAccountId + targetAccountId + transferMoney))
+     * Using the to valid the transfer info
      */
     private String hash;
     private UUID sourceAccountId;
