@@ -47,7 +47,7 @@ public class TransferProcessor extends DomainEntity {
     }
 
     public void processTransferOutRollbacked(TransferInfo transferInfo) {
-        this.transferStatus = TransferStatusEnum.RollbackTransferOut;
+        this.transferStatus = TransferStatusEnum.TransferOutRollBacked;
 
         // The TransferEventHandler
         ProcessTransferOutRollbackEvent processTransferOutRollbackEvent = new ProcessTransferOutRollbackEvent(processorId, transferInfo);

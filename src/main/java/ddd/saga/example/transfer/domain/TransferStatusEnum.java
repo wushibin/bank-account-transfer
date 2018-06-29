@@ -4,6 +4,6 @@ public enum TransferStatusEnum {
     TransferStarted,
     TransferOutCompleted,
     TransferInCompleted,
-    RollbackTransferOut,
+    TransferOutRollBacked,
     TransferAborted
 }
