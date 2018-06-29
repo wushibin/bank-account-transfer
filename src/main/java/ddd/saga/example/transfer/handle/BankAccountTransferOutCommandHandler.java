@@ -15,8 +15,7 @@ public class BankAccountTransferOutCommandHandler implements CommandHandle<BankA
         TransferInfo transferInfo = command.getTransferInfo();
         BankAccount sourceBankAccount = bankAccountRepoService.find(transferInfo.getSourceAccountId(), transferInfo.getSourceAccountLocation());
 
-        sourceBankAccount.transferOut(transferInfo.getTargetAccountId(),
-                transferInfo.getTransferMoney(), command.getProcessorId());
+        sourceBankAccount.transferOut(command.getProcessorId(), transferInfo);
 
         bankAccountRepoService.saveOrUpdate(sourceBankAccount, transferInfo.getSourceAccountLocation());
     }

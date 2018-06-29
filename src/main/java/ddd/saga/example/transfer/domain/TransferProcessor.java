@@ -30,7 +30,7 @@ public class TransferProcessor extends DomainEntity {
         EventPublisher.publish(processTransferOutCompletedEvent);
     }
 
-    public void processSourceAccountInsufficientMoney(TransferInfo transferInfo, UUID processorId) {
+    public void processSourceAccountInsufficientMoney(TransferInfo transferInfo) {
         this.transferStatus = TransferStatusEnum.TransferAborted;
 
         ProcessTransferAbortEvent processTransferAbortEvent = new ProcessTransferAbortEvent(this.processorId, transferInfo);

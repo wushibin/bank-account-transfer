@@ -15,7 +15,7 @@ public class TransferInsufficientMoneyCommandHandler implements CommandHandle<Tr
         TransferProcessor transferProcessor = transferProcessorRepository.find(command.getProcessorId());
 
         TransferInfo transferInfo = command.getTransferInfo();
-        transferProcessor.processSourceAccountInsufficientMoney(transferInfo, command.getProcessorId());
+        transferProcessor.processSourceAccountInsufficientMoney(transferInfo);
 
         transferProcessorRepository.saveOrUpdate(transferProcessor);
     }
