@@ -26,8 +26,8 @@ public class BankAccount extends DomainEntity {
         }
 
         // this.accountMoney = this.accountMoney + transferInfo.transferMoney
-        BankAccountTransferInCompleteEvent bankAccountTransferInCompleteEvent = new BankAccountTransferInCompleteEvent(transferInfo, processorId);
-        EventPublisher.publish(bankAccountTransferInCompleteEvent);
+        BankAccountTransferInCompleteEvent bankAccountTransferInCompletedEvent = new BankAccountTransferInCompleteEvent(transferInfo, processorId);
+        EventPublisher.publish(bankAccountTransferInCompletedEvent);
     }
 
 
@@ -35,20 +35,18 @@ public class BankAccount extends DomainEntity {
         // rollback the transfer out
         // this.accountMoney = this.accountMoney + transferInfo.transferMoney
 
-        BankAccountRollbackTransferOutEvent bankAccountRollbackTransferOutEvent = new BankAccountRollbackTransferOutEvent(processorId, transferInfo);
-        EventPublisher.publish(bankAccountRollbackTransferOutEvent);
+        BankAccountRollbackTransferOutEvent bankAccountTransferOutRollbackedEvent = new BankAccountRollbackTransferOutEvent(processorId, transferInfo);
+        EventPublisher.publish(bankAccountTransferOutRollbackedEvent);
     }
 
-    public void transferOut(UUID targetAccountId, AccountMoney transferMoney, UUID processorId) {
-        if (!isBankAccountEnough(transferMoney)){
-            TransferInfo transferInfo = new TransferInfo(accountId, targetAccountId, transferMoney);
+    public void transferOut(UUID processorId, TransferInfo transferInfo) {
+        if (!isBankAccountEnough(transferInfo.getTransferMoney())){
             EventPublisher.publish(new BankAccountInsufficientMoneyEvent(transferInfo, processorId));
             return;
         }
 
         // this.accountMoney = this.accountMoney - transferMoney;
-        TransferInfo transferInfo = new TransferInfo(accountId, targetAccountId, transferMoney);
-        EventPublisher.publish(new BankAccountTransferOutCompleteEvent(transferInfo, processorId));
+        EventPublisher.publish(new BankAccountTransferOutCompletedEvent(transferInfo, processorId));
     }
 
     public boolean isBankAccountEnough(AccountMoney money){

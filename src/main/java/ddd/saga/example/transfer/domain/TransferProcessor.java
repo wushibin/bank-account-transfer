@@ -18,7 +18,7 @@ public class TransferProcessor extends DomainEntity {
     public TransferProcessor(UUID id, TransferInfo transferInfo){
         this.transferStatus = TransferStatusEnum.TransferStarted;
         this.processorId = id;
-        EventPublisher.publish(new ProcessorTransferStartedEvent(this.processorId, transferInfo));
+        EventPublisher.publish(new ProcessTransferStartedEvent(this.processorId, transferInfo));
     }
 
 
@@ -38,7 +38,7 @@ public class TransferProcessor extends DomainEntity {
         EventPublisher.publish(processTransferAbortEvent);
     }
 
-    public void processCompleted(TransferInfo transferInfo) {
+    public void processTransferInCompleted(TransferInfo transferInfo) {
         this.transferStatus = TransferStatusEnum.TransferInCompleted;
 
         // The TransferEventHandler

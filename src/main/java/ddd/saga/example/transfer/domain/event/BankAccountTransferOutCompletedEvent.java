@@ -5,20 +5,19 @@ import ddd.saga.example.transfer.domain.TransferInfo;
 
 import java.util.UUID;
 
-public class ProcessorTransferStartedEvent extends DomainEvent{
-
-    private UUID processId;
+public class BankAccountTransferOutCompletedEvent extends DomainEvent {
     private TransferInfo transferInfo;
+    private UUID processorId;
 
-    public ProcessorTransferStartedEvent(UUID processorId, TransferInfo transferInfo) {
+    public BankAccountTransferOutCompletedEvent(TransferInfo transferInfo, UUID processorId) {
 
-    }
-
-    public UUID getProcessId() {
-        return processId;
     }
 
     public TransferInfo getTransferInfo() {
         return transferInfo;
+    }
+
+    public UUID getProcessorId() {
+        return processorId;
     }
 }

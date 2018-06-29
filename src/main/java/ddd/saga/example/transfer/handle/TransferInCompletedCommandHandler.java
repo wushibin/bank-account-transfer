@@ -13,7 +13,7 @@ public class TransferInCompletedCommandHandler implements CommandHandle<Transfer
     public void execute(TransferInCompletedCommand command) {
         TransferProcessor transferProcessor = transferProcessorRepository.find(command.getProcessorId());
 
-        transferProcessor.processCompleted(command.getTransferInfo());
+        transferProcessor.processTransferInCompleted(command.getTransferInfo());
 
         transferProcessorRepository.saveOrUpdate(transferProcessor);
     }

@@ -5,17 +5,17 @@ import ddd.saga.example.transfer.domain.event.*;
 
 public class TransferEventManager {
     // observe the 'transfer' event and send the 'bank account' command
-    public void handleTransferStartedEvent(ProcessorTransferStartedEvent processorTransferStartedEvent) {
+    public void handleTransferStartedEvent(ProcessTransferStartedEvent processTransferStartedEvent) {
         BankAccountTransferOutCommand bankAccountTransferOutCommand =
-                new BankAccountTransferOutCommand(processorTransferStartedEvent.getProcessId(),
-                        processorTransferStartedEvent.getTransferInfo());
+                new BankAccountTransferOutCommand(processTransferStartedEvent.getProcessId(),
+                        processTransferStartedEvent.getTransferInfo());
         CommandContext.sendCommand(bankAccountTransferOutCommand);
     }
 
     // observe the 'bank account' event and send the 'transfer' command
-    public void handleBankAccountTransferOutCompleteEvent(BankAccountTransferOutCompleteEvent bankAccountTransferOutCompleteEvent){
+    public void handleBankAccountTransferOutCompleteEvent(BankAccountTransferOutCompletedEvent bankAccountTransferOutCompletedEvent){
 
-        TransferOutCompletedCommand transferOutCompletedCommand = new TransferOutCompletedCommand(bankAccountTransferOutCompleteEvent.getProcessorId(), bankAccountTransferOutCompleteEvent.getTransferInfo());
+        TransferOutCompletedCommand transferOutCompletedCommand = new TransferOutCompletedCommand(bankAccountTransferOutCompletedEvent.getProcessorId(), bankAccountTransferOutCompletedEvent.getTransferInfo());
 
         CommandContext.sendCommand(transferOutCompletedCommand);
     }
